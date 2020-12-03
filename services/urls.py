@@ -7,6 +7,6 @@ urlpatterns = [
     path("add", ServiceCreateView.as_view(), name="add_service"),
     path("edit/<int:pk>/", ServiceUpdateView.as_view(), name="edit_service"),
     path("delete/<int:pk>/", ServiceDeleteView.as_view(), name="delete_service"),
-    path("<int:pk>/", ExpenseDetailView.as_view(), name="expense_detail"),
+    path("<int:pk>/", ServiceDetailView.as_view(), name="expense_detail"),
 
 ]
