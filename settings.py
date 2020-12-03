@@ -1,11 +1,12 @@
 import os
 from pathlib import Path
 
-import dj_database_url
-import django_heroku
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 instance =os.getenv("INSTANCE")
+if instance == "prod":
+    import dj_database_url
+    import django_heroku
 # os.getenv("SECRET_KEY")
 SECRET_KEY = "9z6m!n@32(&y54sb%&b4xr*!_o!f&f9l5yj^d!j^%8q%1o%%72"
 DEBUG = False
@@ -34,9 +35,9 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
-
+if instance == "prod":
+    MIDDLEWARE.append("whitenoise.middleware.WhiteNoiseMiddleware")
 ROOT_URLCONF = "urls"
 
 
@@ -104,5 +105,6 @@ STATIC_URL = "media/static/"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-django_heroku.settings(locals())
+if instance == "prod":
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+    django_heroku.settings(locals())
