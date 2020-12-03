@@ -56,5 +56,3 @@ class TestList(TestCase, TestUtilityMixin):
 
     def __given_services_created(self, **kwargs):
         ServiceFactory.create(**kwargs, created_by=self.user)
-
-
