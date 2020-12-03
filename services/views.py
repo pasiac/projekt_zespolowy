@@ -12,6 +12,9 @@ class ServiceListView(LoginRequiredMixin, ListView):
     model = Service
     paginate_by = 10
 
+    def get_queryset(self):
+        return self.model.objects.order_by("-pk")
+
 class ServiceDetailView(LoginRequiredMixin, ListView):
     model = Service
 
