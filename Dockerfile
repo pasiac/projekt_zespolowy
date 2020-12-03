@@ -16,4 +16,4 @@ WORKDIR /uslugi
 ADD . /uslugi/
 
 # Install any needed packages specified in requirements.txt
-RUN pip install -r requirements.txt
+RUN pip install -r requirements_circle.txt

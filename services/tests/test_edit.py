@@ -26,7 +26,8 @@ class TestEdit(TestCase, TestUtilityMixin):
     def test_user_redirected_after_success_edit(self):
         self.__given_user_logged_in()
         response = self.client.post(
-            self.url, {"title": "new title", "description": "opis", "price": Decimal("99.21")}
+            self.url,
+            {"title": "new title", "description": "opis", "price": Decimal("99.21")},
         )
         self.__then_service_title_and_price_changed()
         self.__then_redirected_to_service_list(response)
@@ -36,7 +37,8 @@ class TestEdit(TestCase, TestUtilityMixin):
         non_existing_service_id = self.service.id + 1
         url = f"services/edit/{non_existing_service_id}"
         response = self.client.post(
-            url, {"title": "new title", "description": "opis","price": Decimal("99.21")}
+            url,
+            {"title": "new title", "description": "opis", "price": Decimal("99.21")},
         )
         self.assertEqual(response.status_code, self.STATUS_NOT_FOUND)
 

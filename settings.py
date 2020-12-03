@@ -1,12 +1,17 @@
 import os
 from pathlib import Path
 
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
+instance =os.getenv("INSTANCE")
+if instance == "prod":
+    import dj_database_url
+    import django_heroku
+# os.getenv("SECRET_KEY")
 SECRET_KEY = "9z6m!n@32(&y54sb%&b4xr*!_o!f&f9l5yj^d!j^%8q%1o%%72"
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
@@ -31,7 +36,8 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
-
+if instance == "prod":
+    MIDDLEWARE.append("whitenoise.middleware.WhiteNoiseMiddleware")
 ROOT_URLCONF = "urls"
 
 
@@ -56,12 +62,20 @@ TEMPLATES = [
 WSGI_APPLICATION = "wsgi.application"
 
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+if instance == "prod":
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'daj1ja945fg0sf',
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+        }
+    }
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -90,4 +104,7 @@ USE_TZ = True
 STATIC_URL = "media/static/"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-STATIC_ROOT = os.path.join(BASE_DIR, "media/static")
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+if instance == "prod":
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+    django_heroku.settings(locals())
