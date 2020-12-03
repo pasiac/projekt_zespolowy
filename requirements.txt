@@ -1,3 +1,4 @@
 Django
 black
 isort
+factory_boy
