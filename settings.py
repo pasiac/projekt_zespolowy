@@ -60,7 +60,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "wsgi.application"
 
-if instance == "LOCAL":
+if instance != "prod":
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
