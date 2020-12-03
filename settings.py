@@ -10,7 +10,7 @@ instance =os.getenv("INSTANCE")
 SECRET_KEY = "9z6m!n@32(&y54sb%&b4xr*!_o!f&f9l5yj^d!j^%8q%1o%%72"
 DEBUG = False
 
-ALLOWED_HOSTS = ["projektpb.herokuapp.com", "127.0.0.1"]
+ALLOWED_HOSTS = ["*"]
 
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
@@ -60,18 +60,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "wsgi.application"
 
-if instance != "prod":
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
-        }
-    }
-else:
+
+if instance == "prod":
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'NAME': 'daj1ja945fg0sf',
+        }
+    }
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
         }
     }
 
