@@ -6,7 +6,7 @@ from accounts.factories import UserFactory
 from services.factories import ServiceFactory
 from services.models import Service
 from utils.tests.mixins import TestUtilityMixin
-
+from providers.factories import ProviderFactory
 
 class TestEdit(TestCase, TestUtilityMixin):
     def setUp(self):
@@ -25,9 +25,11 @@ class TestEdit(TestCase, TestUtilityMixin):
 
     def test_user_redirected_after_success_edit(self):
         self.__given_user_logged_in()
+        # TODO: USUNĄĆ PROVIDERA ZE SŁOWNIKA I POPRAWIĆ KOD PO ODDANIU PROJEKTU Z SBD TO MA DZIAŁAĆ TAK ŻE
+        # USŁUGI DODAWAĆ MOŻE TYLKO UŻYTKOWNIK POSIADAJĄCY FIRMY!
+        provider_pk = ProviderFactory.create().pk
         response = self.client.post(
-            self.url,
-            {"title": "new title", "description": "opis", "price": Decimal("99.21")},
+            self.url, {"title": "new title", "description": "opis", "price": Decimal("99.21"), "provider": provider_pk}
         )
         self.__then_service_title_and_price_changed()
         self.__then_redirected_to_service_list(response)

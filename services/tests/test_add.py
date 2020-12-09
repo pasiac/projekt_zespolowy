@@ -6,7 +6,7 @@ from accounts.factories import UserFactory
 from services.factories import ServiceFactory
 from services.models import Service
 from utils.tests.mixins import TestUtilityMixin
-
+from providers.factories import ProviderFactory
 
 class TestViewserviceAdd(TestCase, TestUtilityMixin):
     url = "/services/add"
@@ -14,10 +14,12 @@ class TestViewserviceAdd(TestCase, TestUtilityMixin):
     def setUp(self):
         self.user = UserFactory.create()
         self.existing_service = ServiceFactory.create(created_by=self.user)
+        provider_pk = ProviderFactory.create().pk
         self.new_service_data = {
             "title": "New test service",
             "description": "test description",
             "price": Decimal("111.11"),
+            "provider": provider_pk,
         }
 
     def test_not_loged_in_user_cant_add(self):
@@ -43,7 +45,6 @@ class TestViewserviceAdd(TestCase, TestUtilityMixin):
 
     def test_add_service_ok(self):
         self.client.force_login(self.user, backend=None)
-
         response = self.client.post(self.url, self.new_service_data)
         created_service = Service.objects.get(pk=self.existing_service.pk + 1)
         expected_location = "/services/"
