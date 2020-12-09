@@ -39,7 +39,8 @@ class TestEdit(TestCase, TestUtilityMixin):
         non_existing_service_id = self.service.id + 1
         url = f"services/edit/{non_existing_service_id}"
         response = self.client.post(
-            url, {"title": "new title", "description": "opis","price": Decimal("99.21")}
+            url,
+            {"title": "new title", "description": "opis", "price": Decimal("99.21")},
         )
         self.assertEqual(response.status_code, self.STATUS_NOT_FOUND)
 
