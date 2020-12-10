@@ -9,3 +9,10 @@ class Provider(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+
+class ProviderManager(models.Manager):
+    def get_queryset(self, request):
+        query = Provider.objects.filter(user=request.user)
+        # if request.user.is_superuser:
+        #     query = Provider.objects.all()
+        return query
