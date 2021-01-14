@@ -9,7 +9,7 @@ if instance == "prod":
     import django_heroku
 # os.getenv("SECRET_KEY")
 SECRET_KEY = "9z6m!n@32(&y54sb%&b4xr*!_o!f&f9l5yj^d!j^%8q%1o%%72"
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -107,7 +107,6 @@ STATIC_URL = "/media/static/"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 STATIC_ROOT = os.path.join(BASE_DIR, "media", "static")
-print(MEDIA_ROOT)
 if instance == "prod":
     STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
     django_heroku.settings(locals())

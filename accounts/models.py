@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.core.validators import MinLengthValidator, int_list_validator
 from django.db import models
+from creditcards.models import CardNumberField, CardExpiryField, SecurityCodeField
 
 
 class BusinessProfile(models.Model):
@@ -20,9 +21,9 @@ class CustomerProfile(models.Model):
 
 
 class CreditCard(models.Model):
-    number = models.CharField(max_length=64)
-    expire_by = models.CharField(max_length=64)
-    cvv = models.CharField(max_length=64)
+    number = CardNumberField('card number')
+    expire_by = CardExpiryField('expiration date')
+    cvv = SecurityCodeField('security code')
     owner = CustomerProfile
 
 
