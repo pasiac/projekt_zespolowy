@@ -13,6 +13,8 @@ chromedriver
 foodenv/
 /htmlcov
 
+
+
 # Distribution / packaging
 bin/
 build/
@@ -57,3 +59,5 @@ coverage.xml
 # Sphinx documentation
 media/
 docs/_build/
+/migrations/
+migrations/
