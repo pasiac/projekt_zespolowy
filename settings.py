@@ -9,7 +9,10 @@ if instance == "prod":
     import django_heroku
 # os.getenv("SECRET_KEY")
 SECRET_KEY = "9z6m!n@32(&y54sb%&b4xr*!_o!f&f9l5yj^d!j^%8q%1o%%72"
-DEBUG = True
+if instance == "prod":
+    DEBUG = False
+else:
+    DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
