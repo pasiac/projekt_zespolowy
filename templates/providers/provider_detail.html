@@ -1,0 +1,7 @@
+{{ object.name }}<br>
+{{ object.description }}
+<br><br>
+Dostepne usługi:<br>
+{% for service in services %}
+    {{ service }}<br>
+{% endfor %}

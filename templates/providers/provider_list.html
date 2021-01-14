@@ -1,0 +1,4 @@
+{% for provider in object_list %}
+    <a href="{% url 'provider_detail' provider.pk %}" class="btn btn-primary">{{ provider.name }}</a>
+{% endfor %}
+{% include 'pagination.html' %}

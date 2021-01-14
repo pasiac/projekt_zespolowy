@@ -13,6 +13,8 @@ chromedriver
 foodenv/
 /htmlcov
 
+
+
 # Distribution / packaging
 bin/
 build/
