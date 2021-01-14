@@ -16,7 +16,7 @@ class ServiceListView(LoginRequiredMixin, ListView):
         return self.model.objects.order_by("-pk")
 
 
-class ServiceDetailView(LoginRequiredMixin, ListView):
+class ServiceDetailView(LoginRequiredMixin, DetailView):
     model = Service
 
 
