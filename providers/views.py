@@ -1,9 +1,11 @@
-from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.views.generic import CreateView, DetailView, ListView
+
 from providers.forms import ProviderForm
-from django.views.generic import ListView, DetailView, CreateView
 from providers.models import Provider
+
 
 class ProviderListView(ListView):
     model = Provider
@@ -20,6 +22,7 @@ class ProviderDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context["services"] = self.object.service_set.all()
         return context
+
 
 class ProviderCreateView(LoginRequiredMixin, CreateView):
     model = Provider

@@ -3,10 +3,11 @@ from decimal import Decimal
 from django.test import TestCase
 
 from accounts.factories import UserFactory
+from providers.factories import ProviderFactory
 from services.factories import ServiceFactory
 from services.models import Service
 from utils.tests.mixins import TestUtilityMixin
-from providers.factories import ProviderFactory
+
 
 class TestViewserviceAdd(TestCase, TestUtilityMixin):
     url = "/services/add"

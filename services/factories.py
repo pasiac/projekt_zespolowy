@@ -5,8 +5,8 @@ import factory.fuzzy
 from factory.django import DjangoModelFactory
 
 from accounts.factories import UserFactory
-from services.models import Service
 from providers.factories import ProviderFactory
+from services.models import Service
 
 
 class ServiceFactory(DjangoModelFactory):
