@@ -26,6 +26,11 @@ class ServiceCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy("service_list")
     extra_context = {"header": "Dodawanie usługi"}
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
     def form_valid(self, form):
         obj = form.save(commit=False)
         obj.created_by = self.request.user
@@ -46,3 +51,8 @@ class ServiceUpdateView(LoginRequiredMixin, UpdateView):
     form_class = ServiceForm
     success_url = reverse_lazy("service_list")
     extra_context = {"header": "Edycja usługi"}
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
