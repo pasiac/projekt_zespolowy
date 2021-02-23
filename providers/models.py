@@ -1,7 +1,17 @@
 from django.contrib.auth.models import User
 from django.db import models
-import os
-from PIL import Image
+
+
+class ProviderQuerySet(models.QuerySet):
+    def search(self, **kwargs):
+        qs = self
+        if kwargs.get('name', ''):
+            qs = qs.filter(name__icontains=kwargs['name'])
+        if kwargs.get('description', ''):
+            qs = qs.filter(description_iscontains=kwargs['description'])
+        if kwargs.get('services', []):
+            qs = qs.filter(services__pk__in=kwargs['industry'])
+        return qs
 
 
 class Provider(models.Model):
@@ -10,6 +20,8 @@ class Provider(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     photo = models.ImageField(upload_to='static/photos/', blank=True, null=True)
     thumbnail = models.ImageField(upload_to="static/thumbnails/", blank=True, null=True)
+
+    objects = ProviderQuerySet.as_manager()
 
     # def save(self, *args, **kwargs):
     #     size = (256,256)
