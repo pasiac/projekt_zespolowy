@@ -1,5 +1,4 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import (
     CreateView, DeleteView, DetailView, ListView, UpdateView)
@@ -23,7 +22,7 @@ class ServiceDetailView(LoginRequiredMixin, DetailView):
 class ServiceCreateView(LoginRequiredMixin, CreateView):
     model = Service
     form_class = ServiceForm
-    success_url = reverse_lazy("service_list")
+    success_url = reverse_lazy("owner_service_list")
     extra_context = {"header": "Dodawanie usługi"}
 
     def get_form_kwargs(self):
@@ -39,7 +38,7 @@ class ServiceCreateView(LoginRequiredMixin, CreateView):
 
 class ServiceDeleteView(LoginRequiredMixin, DeleteView):
     model = Service
-    success_url = reverse_lazy("service_list")
+    success_url = reverse_lazy("owner_service_list")
 
     # TODO: Create confirmation in js
     def get(self, request, *args, **kwargs):
@@ -49,10 +48,20 @@ class ServiceDeleteView(LoginRequiredMixin, DeleteView):
 class ServiceUpdateView(LoginRequiredMixin, UpdateView):
     model = Service
     form_class = ServiceForm
-    success_url = reverse_lazy("service_list")
+    success_url = reverse_lazy("owner_service_list")
     extra_context = {"header": "Edycja usługi"}
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs['user'] = self.request.user
         return kwargs
+
+
+class OwnersServiceListView(LoginRequiredMixin, ListView):
+    """ List view of Services that belongs to user """
+    model = Service
+    paginate_by = 10
+
+    def get_queryset(self):
+        return self.model.objects.filter(created_by=self.request.user)
+

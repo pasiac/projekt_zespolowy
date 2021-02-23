@@ -1,7 +1,14 @@
+{% if request.user == object.user %}
+    <a href="{% url 'delete_provider' object.pk %}">Delete</a><br>
+{% endif %}
 {{ object.name }}<br>
 {{ object.description }}
 <br><br>
 Dostepne usługi:<br>
 {% for service in services %}
-    {{ service }}<br>
+    {{ service }}
+    {% if request.user == object.user %}
+        <a href="{% url 'delete_service' service.pk %}">Delete</a>
+    {% endif %}
+    <br>
 {% endfor %}
