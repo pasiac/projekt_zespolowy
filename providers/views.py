@@ -14,15 +14,12 @@ class ProviderListView(FormMixin, ListView):
     form_class = ProviderFilterForm
 
     def get_queryset(self):
-        if self.request.is_ajax():
-            queryset = self.model.objects.search(self.request.GET)
-        else:
-            queryset = self.model.objects.order_by("-pk")
+        queryset = self.model.objects.search(**self.request.GET.dict())
         return queryset
-
-    def form_valid(self, form):
-        providers = Provider.objects.search(**form.cleaned_data)
-        return render(self.request, "providers/provider_list.html", {"form": form, "object_list": providers})
+    #
+    # def form_valid(self, form):
+    #     providers = Provider.objects.search(**form.cleaned_data)
+    #     return 'dwawadawda'
 
 
 class ProviderDetailView(DetailView):

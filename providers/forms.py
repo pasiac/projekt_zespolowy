@@ -17,6 +17,7 @@ class ProviderFilterForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['name'].required = False
         self.fields['description'].required = False
         self.fields['services'] = forms.MultipleChoiceField(
             widget=forms.CheckboxSelectMultiple,

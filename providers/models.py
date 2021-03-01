@@ -8,9 +8,9 @@ class ProviderQuerySet(models.QuerySet):
         if kwargs.get('name', ''):
             qs = qs.filter(name__icontains=kwargs['name'])
         if kwargs.get('description', ''):
-            qs = qs.filter(description_iscontains=kwargs['description'])
+            qs = qs.filter(description__contains=kwargs['description'])
         if kwargs.get('services', []):
-            qs = qs.filter(services__pk__in=kwargs['industry'])
+            qs = qs.filter(services__pk__in=kwargs['services'])
         return qs
 
 
