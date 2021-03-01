@@ -28,7 +28,7 @@ class ProviderDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["services"] = self.object.service_set.all()
+        context["services"] = self.object.services.all()
         # if self.object.user == self.request.user:
         #     # Jakaś obsługa tego, że to wchodzi owner
         #     context["cms"] = "Hello"
@@ -40,6 +40,16 @@ class ProviderCreateView(LoginRequiredMixin, CreateView):
     form_class = ProviderForm
     success_url = reverse_lazy("owners_provider_list")
     extra_context = {"header": "Dodawanie firmy"}
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
+
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.user = self.request.user
+        return super().form_valid(form)
 
 
 class ProviderDeleteView(LoginRequiredMixin, DeleteView):

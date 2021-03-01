@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.db import models
 
 
@@ -14,11 +15,27 @@ class ProviderQuerySet(models.QuerySet):
         return qs
 
 
+def validate_image(image):
+    max_height = 320
+    max_width = 320
+    height = image.height
+    width = image.width
+    if width > max_width or height > max_height:
+        raise ValidationError("Height or Width is larger than what is allowed")
+
+
 class Provider(models.Model):
     name = models.CharField(max_length=64)
     description = models.CharField(max_length=1024)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    photo = models.ImageField(upload_to="static/photos/", blank=True, null=True)
+    photo = models.ImageField(
+        upload_to="static/photos/",
+        validators=[
+            validate_image,
+        ],
+        blank=True,
+        null=True,
+    )
     thumbnail = models.ImageField(upload_to="static/thumbnails/", blank=True, null=True)
 
     objects = ProviderQuerySet.as_manager()
