@@ -15,7 +15,7 @@
   <button onclick="toggleFilters()">Filters</button>
     <div id="filter-form">
         sortowanie
-     <form method="get"  action="{% url 'provider_list' %}">>{% csrf_token %}
+     <form method="get"  action="{% url 'provider_list' %}">>
         {{ form.as_p }}
         <input type="submit" value="Save">
      </form>
