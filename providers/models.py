@@ -5,12 +5,12 @@ from django.db import models
 class ProviderQuerySet(models.QuerySet):
     def search(self, **kwargs):
         qs = self
-        if kwargs.get('name', ''):
-            qs = qs.filter(name__icontains=kwargs['name'])
-        if kwargs.get('description', ''):
-            qs = qs.filter(description__contains=kwargs['description'])
-        if kwargs.get('services', []):
-            qs = qs.filter(services__pk__in=kwargs['services'])
+        if kwargs.get("name", ""):
+            qs = qs.filter(name__icontains=kwargs["name"])
+        if kwargs.get("description", ""):
+            qs = qs.filter(description__contains=kwargs["description"])
+        if kwargs.get("services", []):
+            qs = qs.filter(services__pk__in=kwargs["services"])
         return qs
 
 
@@ -18,7 +18,7 @@ class Provider(models.Model):
     name = models.CharField(max_length=64)
     description = models.CharField(max_length=1024)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    photo = models.ImageField(upload_to='static/photos/', blank=True, null=True)
+    photo = models.ImageField(upload_to="static/photos/", blank=True, null=True)
     thumbnail = models.ImageField(upload_to="static/thumbnails/", blank=True, null=True)
 
     objects = ProviderQuerySet.as_manager()

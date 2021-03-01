@@ -1,6 +1,12 @@
 from django.urls import path
 
-from providers.views import ProviderDetailView, ProviderListView, ProviderDeleteView, ProviderCreateView, OwnersProviderListView
+from providers.views import (
+    ProviderDetailView,
+    ProviderListView,
+    ProviderDeleteView,
+    ProviderCreateView,
+    OwnersProviderListView,
+)
 
 urlpatterns = [
     path("", ProviderListView.as_view(), name="provider_list"),

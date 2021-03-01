@@ -16,6 +16,7 @@ class ProviderListView(FormMixin, ListView):
     def get_queryset(self):
         queryset = self.model.objects.search(**self.request.GET.dict())
         return queryset
+
     #
     # def form_valid(self, form):
     #     providers = Provider.objects.search(**form.cleaned_data)
@@ -52,6 +53,7 @@ class ProviderDeleteView(LoginRequiredMixin, DeleteView):
 
 class OwnersProviderListView(LoginRequiredMixin, ListView):
     """ List view of Providers that belongs to user """
+
     model = Provider
     paginate_by = 10
 

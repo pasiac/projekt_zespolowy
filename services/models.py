@@ -9,7 +9,9 @@ class Service(models.Model):
     description = models.CharField(max_length=1024)
     price = models.DecimalField(decimal_places=2, max_digits=6)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
-    provider = models.ForeignKey(Provider, related_name="services", on_delete=models.DO_NOTHING)
+    provider = models.ForeignKey(
+        Provider, related_name="services", on_delete=models.DO_NOTHING
+    )
 
     def __str__(self):
         return f"{self.title} {self.price}"

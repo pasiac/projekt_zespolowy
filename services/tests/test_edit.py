@@ -30,7 +30,13 @@ class TestEdit(TestCase, TestUtilityMixin):
         # USŁUGI DODAWAĆ MOŻE TYLKO UŻYTKOWNIK POSIADAJĄCY FIRMY!
         provider_pk = ProviderFactory.create().pk
         response = self.client.post(
-            self.url, {"title": "new title", "description": "opis", "price": Decimal("99.21"), "provider": provider_pk}
+            self.url,
+            {
+                "title": "new title",
+                "description": "opis",
+                "price": Decimal("99.21"),
+                "provider": provider_pk,
+            },
         )
         self.__then_service_title_and_price_changed()
         self.__then_redirected_to_service_list(response)

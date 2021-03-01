@@ -1,7 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import (
-    CreateView, DeleteView, DetailView, ListView, UpdateView)
+    CreateView,
+    DeleteView,
+    DetailView,
+    ListView,
+    UpdateView,
+)
 
 from services.forms import ServiceForm
 from services.models import Service
@@ -27,7 +32,7 @@ class ServiceCreateView(LoginRequiredMixin, CreateView):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user
+        kwargs["user"] = self.request.user
         return kwargs
 
     def form_valid(self, form):
@@ -53,15 +58,15 @@ class ServiceUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user
+        kwargs["user"] = self.request.user
         return kwargs
 
 
 class OwnersServiceListView(LoginRequiredMixin, ListView):
     """ List view of Services that belongs to user """
+
     model = Service
     paginate_by = 10
 
     def get_queryset(self):
         return self.model.objects.filter(created_by=self.request.user)
-
