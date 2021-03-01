@@ -1,17 +1,25 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, DeleteView
+from django.views.generic.edit import FormMixin
 
-from providers.forms import ProviderForm
+from providers.forms import ProviderForm, ProviderFilterForm
 from providers.models import Provider
 
 
-class ProviderListView(ListView):
+class ProviderListView(FormMixin, ListView):
     model = Provider
     paginate_by = 10
+    form_class = ProviderFilterForm
 
     def get_queryset(self):
-        return self.model.objects.order_by("-pk")
+        queryset = self.model.objects.search(**self.request.GET.dict())
+        return queryset
+    #
+    # def form_valid(self, form):
+    #     providers = Provider.objects.search(**form.cleaned_data)
+    #     return 'dwawadawda'
 
 
 class ProviderDetailView(DetailView):
