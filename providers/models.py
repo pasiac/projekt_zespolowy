@@ -28,7 +28,14 @@ class Provider(models.Model):
     name = models.CharField(max_length=64)
     description = models.CharField(max_length=1024)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    photo = models.ImageField(upload_to="static/photos/", validators=[validate_image,], blank=True, null=True)
+    photo = models.ImageField(
+        upload_to="static/photos/",
+        validators=[
+            validate_image,
+        ],
+        blank=True,
+        null=True,
+    )
     thumbnail = models.ImageField(upload_to="static/thumbnails/", blank=True, null=True)
 
     objects = ProviderQuerySet.as_manager()

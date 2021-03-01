@@ -3,7 +3,7 @@ from pathlib import Path
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-instance =os.getenv("INSTANCE")
+instance = os.getenv("INSTANCE")
 if instance == "prod":
     import dj_database_url
     import django_heroku
@@ -68,9 +68,9 @@ WSGI_APPLICATION = "wsgi.application"
 
 if instance == "prod":
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'daj1ja945fg0sf',
+        "default": {
+            "ENGINE": "django.db.backends.postgresql_psycopg2",
+            "NAME": "daj1ja945fg0sf",
         }
     }
 else:
@@ -104,17 +104,13 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "media", "static"),
-)
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "media", "static"),)
 STATIC_URL = "/media/static/"
 MEDIA_URL = "media/"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-STATIC_ROOT = ''
+STATIC_ROOT = ""
 
-
-print(STATIC_ROOT)
 if instance == "prod":
     STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
     django_heroku.settings(locals())
