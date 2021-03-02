@@ -1,6 +1,19 @@
-{{header}}
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
 
-    <form method="post" enctype="multipart/form-data" >{% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Save">
-    </form>
+    <script src="{% static 'js/providers/toggleFilters.js' %}"></script>
+
+    {{header}}
+        <form method="post" enctype="multipart/form-data" >{% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Save">
+        </form>
+{#<script>#}
+{#    $('#id_is_add_services').change(function() {#}
+{#        $('#services-add-select-quantity').toggle();#}
+{#    });#}
+{#</script>#}
+
+{% endblock %}
+

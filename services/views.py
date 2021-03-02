@@ -35,6 +35,13 @@ class ServiceCreateView(LoginRequiredMixin, CreateView):
         kwargs["user"] = self.request.user
         return kwargs
 
+    def get_initial(self):
+        initial = super().get_initial()
+        provider_pk = self.kwargs.get("pk", "")
+        if provider_pk:
+            initial['provider'] = provider_pk
+        return initial
+
     def form_valid(self, form):
         obj = form.save(commit=False)
         obj.created_by = self.request.user

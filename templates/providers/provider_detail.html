@@ -5,6 +5,9 @@
 {{ object.description }}
 <br><br>
 Dostepne usługi:<br>
+{% if request.user == object.user %}
+    <a href="{% url 'add_service' object.pk %}">Create service</a>
+{% endif %}
 {% for service in services %}
     {{ service }}
     {% if request.user == object.user %}

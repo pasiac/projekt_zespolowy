@@ -4,10 +4,9 @@
 <body>
 {% block body %}
   <script src="{% static 'js/providers/toggleFilters.js' %}"></script>
-
-<button onclick="toggleFilters()">Filters</button>
-    <div id="filter-form">
-         <form method="get"  action="{% url 'provider_list' %}">>
+    <button onclick="toggleFilters()">Filters</button>
+    <div id="filter-form" style="display: none">
+         <form method="get" action="{{ request.path }}">
              {{ form.as_p }}
              <input type="submit" value="Save">
          </form>

@@ -5,7 +5,7 @@ from providers.views import (
     ProviderListView,
     ProviderDeleteView,
     ProviderCreateView,
-    OwnersProviderListView,
+    OwnersProviderListView, ProviderServicesCreateView,
 )
 
 urlpatterns = [
@@ -15,4 +15,6 @@ urlpatterns = [
     path("<int:pk>/", ProviderDetailView.as_view(), name="provider_detail"),
     # Owner urls
     path("cms", OwnersProviderListView.as_view(), name="owners_provider_list"),
+    path("pro", ProviderServicesCreateView.as_view(), name="add_provider"),
+
 ]

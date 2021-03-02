@@ -12,6 +12,8 @@ class ProviderQuerySet(models.QuerySet):
             qs = qs.filter(description__contains=kwargs["description"])
         if kwargs.get("services", []):
             qs = qs.filter(services__pk__in=kwargs["services"])
+        if kwargs.get("user", ""):
+            qs = qs.filter(user=kwargs["user"])
         return qs
 
 

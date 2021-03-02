@@ -1,10 +1,10 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView, ListView, DeleteView
+from django.views.generic import CreateView, DetailView, ListView, DeleteView, TemplateView
 from django.views.generic.edit import FormMixin
+from django.db import transaction
 
-from providers.forms import ProviderForm, ProviderFilterForm
+from providers.forms import ProviderForm, ProviderFilterForm, ServiceFormSet, ProviderTestForm
 from providers.models import Provider
 
 
@@ -16,11 +16,6 @@ class ProviderListView(FormMixin, ListView):
     def get_queryset(self):
         queryset = self.model.objects.search(**self.request.GET.dict())
         return queryset
-
-    #
-    # def form_valid(self, form):
-    #     providers = Provider.objects.search(**form.cleaned_data)
-    #     return 'dwawadawda'
 
 
 class ProviderDetailView(DetailView):
@@ -61,11 +56,45 @@ class ProviderDeleteView(LoginRequiredMixin, DeleteView):
         return self.post(request, *args, **kwargs)
 
 
-class OwnersProviderListView(LoginRequiredMixin, ListView):
+class OwnersProviderListView(LoginRequiredMixin, ProviderListView):
     """ List view of Providers that belongs to user """
 
-    model = Provider
-    paginate_by = 10
-
     def get_queryset(self):
-        return self.model.objects.filter(user=self.request.user)
+        filters = self.request.GET.dict()
+        filters["user"] = self.request.user
+        return self.model.objects.search(**filters)
+
+
+class ProviderServicesCreateView(LoginRequiredMixin, CreateView):
+    model = Provider
+    form_class = ProviderTestForm
+    template_name = 'providers/provider_create.html'
+
+    success_url = None
+    extra_context = {"header": "Dodawanie firmy"}
+
+    def get_context_data(self, **kwargs):
+        data = super(ProviderServicesCreateView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            data['services'] = ServiceFormSet(self.request.POST)
+        else:
+            data['services'] = ServiceFormSet()
+        return data
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        services = context['services']
+        with transaction.atomic():
+            form.instance.user = self.request.user
+            self.object = form.save()
+            if services.is_valid():
+                services.instance = self.object
+                for service in services:
+                    service = service.save(commit=False)
+                    service.created_by = self.request.user
+                # dont increamenting services-TOTAL_FORMS that is probably the case why only one form is being added
+                services.save()
+        return super(ProviderServicesCreateView, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('provider_detail', kwargs={'pk': self.object.pk})

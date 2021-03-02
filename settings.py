@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     "services",
     "accounts",
     "providers",
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -114,3 +115,22 @@ STATIC_ROOT = ""
 if instance == "prod":
     STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
     django_heroku.settings(locals())
+
+# Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '587'
+EMAIL_HOST_USER = 'uslugrezerwacja'
+EMAIL_HOST_PASSWORD = 'projektzespolowy1!'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+#
+# from django.core.mail import EmailMessage
+#
+# email = EmailMessage(
+#     subject = 'Temat',
+#     body = 'Treść',
+#     from_email = 'uslugrezerwacja@gmail.com',
+#     to = ['dawidpawlowski16@gmail.com'],
+#     reply_to = ['uslugrezerwacja@gmail.com'],
+# )
